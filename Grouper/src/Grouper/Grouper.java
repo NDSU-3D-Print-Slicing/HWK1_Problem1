@@ -36,7 +36,6 @@ public class Grouper {
     public static List<Integer> subgroup2(int H, int W){
         List<Integer> groups = new ArrayList<>();
         List<Integer> sub1, sub2;
-        
        //base case
        if(W < 5){
            groups.add(W);
@@ -50,9 +49,9 @@ public class Grouper {
                lower -= 1;
                upper = W - lower;
            }
-           
-           sub1 = subgroup(H, lower);
-           sub2 = subgroup(H, upper);
+           System.out.print("\n middle {" + lower + "," + upper + "} becomes");
+           sub1 = subgroup2(H, lower);
+           sub2 = subgroup2(H, upper);
            
            groups.addAll(sub1);
            groups.addAll(sub2);
@@ -145,8 +144,8 @@ public class Grouper {
     }
     
     public static void main(String[] args) {
-        int height = 6;
-        int width = 25;
+        int height = 15;
+        int width = 60;
         
         System.out.println("Height Limit: " + height + " pts");
         System.out.println("Width: " + width + " pts");
