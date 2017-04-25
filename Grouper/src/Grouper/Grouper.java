@@ -14,6 +14,7 @@ import java.util.List;
 public class Grouper {
     
     
+    //subdivide tree into n-groups. Does not worry about even + even combinations.
     public static List<Integer> subgroup(int H, int W){
         
         List<Integer> groups = new ArrayList<>();
@@ -33,6 +34,8 @@ public class Grouper {
        return groups;
     }
     
+    
+    //subdivide tree into n-groups, with the additional constraint that each subdivision must be combination of odd + odd or odd + even.
     public static List<Integer> subgroup2(int H, int W){
         List<Integer> groups = new ArrayList<>();
         List<Integer> sub1, sub2;
@@ -58,7 +61,8 @@ public class Grouper {
        }
        return groups;
     }
-    
+
+    //attempt to keep track of subdivision iterations (parents)
     public static void subgroup3(int H, List<Integer> list){
 
         boolean subdivided;
@@ -94,6 +98,8 @@ public class Grouper {
         
     }
     
+    //helper function to check whether subdivision results in even + even
+    //in such a case, function changes subdivision to odd + odd or odd + even
     public static int subdivide(int W){
         
         int lower = (int) Math.floor(W/2);
@@ -108,6 +114,7 @@ public class Grouper {
         return lower;
     }
     
+    //output for testing
     public static void printSubgroups(int H, List<Integer> list){
         System.out.print("{");
         List<Integer> current;
@@ -124,7 +131,7 @@ public class Grouper {
         System.out.print("}");
     }
     
-    
+    //function subdivides given problem into trees
     public static List<Integer> group(int H, int W){
         
         List<Integer> groups = new ArrayList<>();
@@ -160,10 +167,12 @@ public class Grouper {
         return groups;
     }
     
+    //calculates the height of the stem given overall height and width of tree in points
     public static int stemHeight(int H, int D){
         return H - (int) Math.floor(D/2); 
     }
     
+    //output list of stem lengths in points
     public static void printStems(int H, List<Integer> list){
         System.out.print("Stems: {");
         for(int i = 0; i < list.size(); i++)
@@ -178,7 +187,7 @@ public class Grouper {
         System.out.print("}");
     }
 
-    
+    //output list
     public static void print(List<Integer> list){
         System.out.print("{");
         for(int i = 0; i < list.size(); i++)
@@ -192,6 +201,7 @@ public class Grouper {
         System.out.print("}");
     }
     
+    //runs functions
     public static void main(String[] args) {
         int height = 15;
         int width = 60;
