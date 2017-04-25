@@ -49,7 +49,7 @@ public class Grouper {
                lower -= 1;
                upper = W - lower;
            }
-           System.out.print("\n middle {" + lower + "," + upper + "} becomes");
+           //System.out.print("\n middle {" + lower + "," + upper + "} becomes");
            sub1 = subgroup2(H, lower);
            sub2 = subgroup2(H, upper);
            
@@ -57,6 +57,55 @@ public class Grouper {
            groups.addAll(sub2);
        }
        return groups;
+    }
+    
+    public static void subgroup3(int H, List<Integer> list){
+
+        boolean subdivided;
+ 
+        do{
+            print(list);
+            System.out.println("");
+            subdivided = false;
+            
+            //go through each item in list
+            //if particular item has subdivisions greater than 4, needs subdividing again
+            for(int i = 0; i < list.size(); i++){
+                int c = list.get(i);
+                //System.out.println(c);
+                if(c > 4){
+                    subdivided = true;
+                    int lower = subdivide(c);
+                    int upper = c - lower;
+                    
+                    //remove current value at i
+                    //replace with subdivided values
+                    list.set(i, lower);
+                    list.add(i+1, upper);
+                    i++;
+                }
+            }
+            
+            
+        }while(subdivided);
+        
+        
+        print(list);
+        
+    }
+    
+    public static int subdivide(int W){
+        
+        int lower = (int) Math.floor(W/2);
+        int upper = W - lower;
+
+        //odd + odd or odd + even is more efficient than even + even
+        if(lower % 2 == 0 && upper % 2 == 0){
+           lower -= 1;
+           upper = W - lower;
+        }
+        
+        return lower;
     }
     
     public static void printSubgroups(int H, List<Integer> list){
@@ -160,5 +209,8 @@ public class Grouper {
         System.out.println("\n\nSubgroups:");
         printSubgroups(height, group(height, width));
         System.out.println("");
+        
+        System.out.println("\nSubdivision Process: ");
+        subgroup3(height, group(height, width));
     }
 }
