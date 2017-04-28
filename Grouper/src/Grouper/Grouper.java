@@ -203,7 +203,7 @@ public class Grouper {
     
     //runs functions
     public static void main(String[] args) {
-        int height = 15;
+        int height = 4;
         int width = 60;
         
         System.out.println("Height Limit: " + height + " pts");
