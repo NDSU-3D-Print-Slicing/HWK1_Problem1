@@ -13,7 +13,7 @@ package Grouper;
 public class CostCalculator {
     
     /**
-     * Calculates the cost of a single tree.
+     * Calculates the cost of a single tree that has a stem.
      * @param W width in grid points
      * @param H height in grid points
      * @return cost of tree structure
@@ -261,7 +261,7 @@ public class CostCalculator {
 */
     
     public static void main(String[] args) {
-        System.out.println(treeCost(15,15));
+        System.out.println(treeCost(15,14));
     }
 }
 
