@@ -1,3 +1,5 @@
+package Grouper;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,7 +13,7 @@
 public class CostCalculator {
     
     /**
-     * 
+     * Calculates the cost of a single tree.
      * @param W width in grid points
      * @param H height in grid points
      * @return cost of tree structure
@@ -19,8 +21,7 @@ public class CostCalculator {
     public static double treeCost(int W, int H){
         
         int pointsFullGroup = (int) Math.floor(W/2) + 1; //in points
-        int pointsStem = H - pointsFullGroup; //in points
-        double costStem = pointsStem - 1;
+        int costStem = H - pointsFullGroup; //in points
         double costFullGroup;
         
         if(W < 5){
@@ -31,9 +32,16 @@ public class CostCalculator {
    
             costFullGroup = subtreeCost(W,pointsFullGroup);
         }
+        
         return costStem + costFullGroup;
     }
     
+    /**
+     * Recursive helper function to calculate cost of full grouping of subtree.
+     * @param W width in grid points
+     * @param H height in grid points of full grouping of subtree
+     * @return cost of subtree full grouping
+     */
     public static double subtreeCost(int W, int H){
         
         //base case
@@ -53,31 +61,61 @@ public class CostCalculator {
             //subdivide subtree into two smaller subtrees
             int [] subtrees;
             subtrees = getSubtrees(W);
-            
-            
+           
             //determine cost of each of the smaller subtrees
             totalLeft = subtreeCost(subtrees[0], fullGroupHeight);
             totalRight = subtreeCost(subtrees[1], fullGroupHeight);
             
             //calculate cost of leftover
-            totalLeftover = costLeftover(W,H,subtrees);
+            totalLeftover = costLeftover(W,fullGroupHeight,subtrees);
             
             
+            //return cost of full grouping of this subtree
             return totalLeft + totalRight + totalLeftover;
-        }
+        }//end if
     }
     
     public static double costLeftover(int W, int H, int [] subtrees){
         
-        return 0.00;
+        double total = 0;
+        int leftWidth = subtrees[0];
+        int rightWidth = subtrees[1];
+       
+        //calculate height of each subgroup in grid points
+        int leftGroupHeight = (int) Math.floor(leftWidth/2) + 1;
+        int rightGroupHeight = (int) Math.floor(rightWidth/2) + 1;
+        
+        //calculate height of each diagonal in units
+        int leftDiagonalHeight = H - leftGroupHeight;
+        int rightDiagonalHeight = H - rightGroupHeight;
+        
+        
+        if(W % 2 == 0){ //one diagonal has a cant (left always?)
+            
+            total += (leftDiagonalHeight - 1) * Math.sqrt(2) + 1;
+            total += rightDiagonalHeight * Math.sqrt(2);
+        }
+        else{ //neither diagonal has a cant
+            
+            total += rightDiagonalHeight * Math.sqrt(2);
+            total += leftDiagonalHeight * Math.sqrt(2);
+        }
+        
+        
+        return total;
     }
     
+    /**
+     * Helper function to subdivide tree into subtrees.
+     * @param W width in points of tree to subdivide
+     * @return array of two subtrees with left as index 0
+     */
     public static int [] getSubtrees(int W){
         
-        int leftWidth = (int) Math.floor(W/2) + 1;
+        int leftWidth = (int) Math.floor(W/2);
         int rightWidth = W - leftWidth;
         
-        //assume it is efficient to subdivide tree into (odd,odd) or (odd,even) groups
+        //assume it is more efficient to subdivide tree into (odd,odd) or (odd,even) groups
         //rather than (even,even)
         if(leftWidth % 2 == 0 && rightWidth % 2 == 0){
             leftWidth -= 1;
@@ -89,6 +127,11 @@ public class CostCalculator {
         return values;
     }
     
+    /**
+     * Helper function to get cost of base step subgroups.
+     * @param W width in points of tree
+     * @return cost of subgrouping
+     */
     public static double groupCost(int W){
         
         double cost = 0;
@@ -112,6 +155,18 @@ public class CostCalculator {
     }
  
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
+    
+    //old version
     public static double total(int W, int H){
         
         //note: does not yet work for trees of height 3 pts only!!
@@ -203,9 +258,10 @@ public class CostCalculator {
         }     
         return total;  
     }   
+*/
     
     public static void main(String[] args) {
-        System.out.println(total(9,5));
+        System.out.println(treeCost(15,15));
     }
 }
 
