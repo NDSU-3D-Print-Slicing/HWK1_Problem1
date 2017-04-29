@@ -9,6 +9,107 @@
  * @author Ryan
  */
 public class CostCalculator {
+    
+    /**
+     * 
+     * @param W width in grid points
+     * @param H height in grid points
+     * @return cost of tree structure
+     */
+    public static double treeCost(int W, int H){
+        
+        int pointsFullGroup = (int) Math.floor(W/2) + 1; //in points
+        int pointsStem = H - pointsFullGroup; //in points
+        double costStem = pointsStem - 1;
+        double costFullGroup;
+        
+        if(W < 5){
+            
+            costFullGroup = groupCost(W);
+        }
+        else{
+   
+            costFullGroup = subtreeCost(W,pointsFullGroup);
+        }
+        return costStem + costFullGroup;
+    }
+    
+    public static double subtreeCost(int W, int H){
+        
+        //base case
+        if(W < 5){
+            return groupCost(W);
+        }
+        //recursive case
+        else{
+            
+            double totalLeft = 0;
+            double totalRight = 0;
+            double totalLeftover = 0;
+            
+            //calculate height in points of full grouping
+            int fullGroupHeight = (int) Math.floor(W/2) + 1;
+            
+            //subdivide subtree into two smaller subtrees
+            int [] subtrees;
+            subtrees = getSubtrees(W);
+            
+            
+            //determine cost of each of the smaller subtrees
+            totalLeft = subtreeCost(subtrees[0], fullGroupHeight);
+            totalRight = subtreeCost(subtrees[1], fullGroupHeight);
+            
+            //calculate cost of leftover
+            totalLeftover = costLeftover(W,H,subtrees);
+            
+            
+            return totalLeft + totalRight + totalLeftover;
+        }
+    }
+    
+    public static double costLeftover(int W, int H, int [] subtrees){
+        
+        return 0.00;
+    }
+    
+    public static int [] getSubtrees(int W){
+        
+        int leftWidth = (int) Math.floor(W/2) + 1;
+        int rightWidth = W - leftWidth;
+        
+        //assume it is efficient to subdivide tree into (odd,odd) or (odd,even) groups
+        //rather than (even,even)
+        if(leftWidth % 2 == 0 && rightWidth % 2 == 0){
+            leftWidth -= 1;
+            rightWidth = W - leftWidth;
+        }
+        
+        int [] values = {leftWidth, rightWidth};
+        
+        return values;
+    }
+    
+    public static double groupCost(int W){
+        
+        double cost = 0;
+        
+        switch (W) {
+            case 1:
+                cost = 1;
+                break;
+            case 2:
+                cost = Math.sqrt(2) + 1;
+                break;
+            case 3:
+                cost = 2 * Math.sqrt(2) + 1;
+                break;
+            case 4:
+                cost = 3 * Math.sqrt(2) + 3;
+                break;
+        }
+        
+        return cost;
+    }
  
     
     public static double total(int W, int H){
@@ -20,9 +121,9 @@ public class CostCalculator {
                 case 1:
                     return 1;
                 case 2:
-                    return 2*Math.sqrt(2)+1;    //includes extra sqrt(2) as single diagonal connection
+                    return Math.sqrt(2)+1;   
                 case 3:
-                    return 3*Math.sqrt(2)+1;    //includes extra sqrt(2) as single diagonal connection
+                    return 2*Math.sqrt(2)+1;    
                 case 4:
                     return 3*Math.sqrt(2)+3;   
                 default:
