@@ -31,10 +31,15 @@ public class CostCalculator {
         List<Integer> trees = divideIntoTrees(W, H);
         return listCost(trees, H);
     }
+    
+    public static double divideAndCost_Alt(int W, int H){
+        List<Integer> trees = divideIntoTrees_Alt(W, H);
+        return listCost(trees, H);
+    }
 
     //private methods
     /**
-     * Subdivides given width into most-efficient n-trees based on given height, then
+     * Recursively subdivides given width into most-efficient n-trees based on given height, then
      * returns the list of n-trees. H > 1 because no tree can be formed by a single point.
      *
      * @param W width to be supported in grid points
@@ -65,6 +70,52 @@ public class CostCalculator {
             trees.addAll(leftTrees);
             trees.addAll(rightTrees);
         }
+        return trees;
+    }
+    
+    /**
+     * Non-recursively subdivides given width into most-efficient n-trees.
+     * @param W
+     * @param H
+     * @return 
+     */
+    private static List<Integer> divideIntoTrees_Alt(int W, int H){
+        List<Integer> trees = new ArrayList<>();
+
+        int maxWidth = 2 * H - 3;    //max points efficiently supported by single stem for given H
+
+        //base step
+        if (W <= maxWidth) {
+
+            trees.add(W); //entire structure should be supported by 1 stem
+        } //recursive step
+        else{
+            
+            int groups_max, extra, groupL, groupR;
+            if(W % maxWidth == 0){ //maxWidth divisor of W
+                groups_max = W/maxWidth;    //divides evenly
+            }
+            else{
+                //final grouping of maxWidth added to remainder of W % maxWidth
+                groups_max = W/maxWidth - 1;
+                extra = W - (maxWidth * groups_max);
+                
+                //extra can be divided into two groups, each of which is smaller than maxWidth
+                groupL = (int) Math.floor(extra/2);
+                groupR = extra - groupL;
+                
+                //add smaller groups to list
+                trees.add(groupL);
+                trees.add(groupR);
+            }//end if
+            
+            //add maxWidth n-trees to list
+            for(int i = 0; i < groups_max; i++){
+                trees.add(maxWidth);
+            }
+            
+        }//end if
+        
         return trees;
     }
     
@@ -249,10 +300,16 @@ public class CostCalculator {
 
     //testing
     public static void main(String[] args) {
-        System.out.println(divideIntoTrees(10, 4));
-        System.out.println(divideAndCost(10, 4));
-        System.out.println(divideAndCost(2000000000, 1000));
+        //System.out.println(divideIntoTrees(10, 4));
+        //System.out.println(divideAndCost(10, 4));
+        //System.out.println(divideAndCost(2000000000, 1000));
+        //System.out.println(divideAndCost_Alt(2000000000, 1000));
+        System.out.println(divideAndCost(2000, 3)/divideAndCost_Alt(2000, 3));
         
+        for(int i = 2; i < 1000; i++){
+            System.out.println(i + ":" + divideAndCost(2000, i)/divideAndCost_Alt(2000, i));
+        }
+        /*
         System.out.println("Check against manually calculated square trees");
         for(int i = 2; i < 16; i++){
             System.out.println(i +":" + treeCost(i,i));
@@ -261,5 +318,11 @@ public class CostCalculator {
         System.out.println(divideIntoTrees(100, 2));
         System.out.println(divideAndCost(100, 2));
         
+        for(int i = 2000; i < 2001; i++){
+            for(int j = 2; j < 10; j++){
+                System.out.println(i + "," + j + ":" + divideIntoTrees(i,j).size());
+            }
+        }
+        */
     }
 }
