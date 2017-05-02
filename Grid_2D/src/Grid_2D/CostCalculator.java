@@ -312,11 +312,21 @@ public class CostCalculator {
         //System.out.println(divideAndCost(10, 4));
         //System.out.println(divideAndCost(2000000000, 1000));
         //System.out.println(divideAndCost_Alt(2000000000, 1000));
-        System.out.println(divideAndCost(2000, 3)/divideAndCost_Alt(2000, 3));
+        //System.out.println(divideAndCost(2000, 3)/divideAndCost_Alt(2000, 3));
         
-        for(int i = 2; i < 1000; i++){
-            System.out.println(i + ":" + divideAndCost(2000, i)/divideAndCost_Alt(2000, i));
+        
+        int count = 0;
+        
+        for(int i = 2; i < 10000; i++){
+            double result = divideAndCost(20000, i)/divideAndCost_Alt(20000, i);
+            
+            if(result > 1){
+                System.out.println(i + ":" + result);
+                count++;                
+            } 
         }
+        System.out.println("Count:" + count);
+        
         /*
         System.out.println("Check against manually calculated square trees");
         for(int i = 2; i < 16; i++){
