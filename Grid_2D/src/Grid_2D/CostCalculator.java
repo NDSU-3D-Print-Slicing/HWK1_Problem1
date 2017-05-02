@@ -14,7 +14,7 @@ import java.util.List;
  * - Each vertical connection between grid points is 1 unit.
  * - Each diagonal connection between two grid points is sqrt(2) units.
  * 
- * Last updated: 5-1-17
+ * Last updated: 5-2-17
  *
  * @author Ryan Quinn Nelson
  */
@@ -23,6 +23,7 @@ public class CostCalculator {
     //public methods 
     /**
      * Subdivides given width into most-efficient n-trees based on given height, the calculates and returns total cost.
+     * Uses recursive method of finding n-trees.
      * @param W width in grid units
      * @param H height in grid units
      * @return cost in length units
@@ -32,6 +33,13 @@ public class CostCalculator {
         return listCost(trees, H);
     }
     
+    /**
+     * Subdivides given width into most-efficient n-trees based on given height, the calculates and returns total cost.
+     * Uses non-recursive method of finding n-trees.
+     * @param W width in grid units
+     * @param H height in grid units
+     * @return cost in length units
+     */
     public static double divideAndCost_Alt(int W, int H){
         List<Integer> trees = divideIntoTrees_Alt(W, H);
         return listCost(trees, H);
@@ -75,9 +83,9 @@ public class CostCalculator {
     
     /**
      * Non-recursively subdivides given width into most-efficient n-trees.
-     * @param W
-     * @param H
-     * @return 
+     * @param W width to be supported in grid points
+     * @param H height to be supported in grid points
+     * @return List of integer subtrees representing the width in grid points of all n-trees required to support W
      */
     private static List<Integer> divideIntoTrees_Alt(int W, int H){
         List<Integer> trees = new ArrayList<>();
