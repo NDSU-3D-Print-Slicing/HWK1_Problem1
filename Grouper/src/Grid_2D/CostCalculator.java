@@ -1,18 +1,22 @@
-package Grouper;
+package Grid_2D;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- * NDSU-JPL 3D Printing Problem 1 Algorithm to calculate full cost of a single
- * most-efficient tree. 4-28-17
+ * NDSU-JPL 3D Printing Additive Support Algorithm
+ * Version calculates full cost of a most-efficient structure supporting an arbitrary width and height that are constrained to a 2D grid.
+ * Structure is entire made of vertical and diagonal members. 
+ * - Diagonal members are restricted to 45 degrees only.
+ * - Structure can be subdivided into multiple independent trees.
+ * 
+ * In this version, cost is based entirely on length. 
+ * - Each vertical connection between grid points is 1 unit.
+ * - Each diagonal connection between two grid points is sqrt(2) units.
+ * 
+ * Last updated: 5-1-17
  *
- * @author Ryan
+ * @author Ryan Quinn Nelson
  */
 public class CostCalculator {
 
@@ -247,7 +251,7 @@ public class CostCalculator {
     public static void main(String[] args) {
         System.out.println(divideIntoTrees(10, 4));
         System.out.println(divideAndCost(10, 4));
-        //System.out.println(divideAndCost(2000000000, 1000));
+        System.out.println(divideAndCost(2000000000, 1000));
         
         System.out.println("Check against manually calculated square trees");
         for(int i = 2; i < 16; i++){
