@@ -245,9 +245,17 @@ public class CostCalculator {
 
     //testing
     public static void main(String[] args) {
-        //System.out.println(divideIntoTrees(10, 4));
-        //System.out.println(divideAndCost(10, 4));
-        System.out.println(divideAndCost(2000000000, 1000));
+        System.out.println(divideIntoTrees(10, 4));
+        System.out.println(divideAndCost(10, 4));
+        //System.out.println(divideAndCost(2000000000, 1000));
+        
+        System.out.println("Check against manually calculated square trees");
+        for(int i = 2; i < 16; i++){
+            System.out.println(i +":" + treeCost(i,i));
+        }
+        System.out.println("Check if works for minimum height");
+        System.out.println(divideIntoTrees(100, 2));
+        System.out.println(divideAndCost(100, 2));
         
     }
 }
