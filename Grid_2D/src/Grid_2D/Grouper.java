@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 4-24-17
- * Test
+ * 
  * Program is designed to take as input a structure height and width, then determine the n-groups to construct the structure.
  * @author Ryan
  */
